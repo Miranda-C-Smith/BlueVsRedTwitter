@@ -9,10 +9,10 @@ import sys
 
 
 # Variables that contains the user credentials to access Twitter API 
-ACCESS_TOKEN = ''
-ACCESS_SECRET = ''
-CONSUMER_KEY = ''
-CONSUMER_SECRET = ''
+ACCESS_TOKEN = '824794440409706496-CGUoqhcZpfk4lOcblNVG1OuubwaCqZp'
+ACCESS_SECRET = 'Mgd7wctkwI3nNUL6RHD4Cqjg9HVngccRrynoWfEsTUzlJ'
+CONSUMER_KEY = '72haUMMgwOXNNGXXz4G0N7B9m'
+CONSUMER_SECRET = 'zSx800UtH7OUTkVUMw2uORB39o1aP59uZgmXMWo8AZpoFkNgJQ'
 
 api = twitter.Api(consumer_key=CONSUMER_KEY,
                   consumer_secret=CONSUMER_SECRET,
@@ -34,7 +34,7 @@ def readUserInfocsv(filename):
             
         
 
-def main(twitterHandle = "TheEllenShow"):
+def main(twitterHandle = "jaredpolis"):
     
     #print( "found %d friends" % (len(query["ids"])))
     redUsers = readUserInfocsv("RedUserInfo.csv")
@@ -46,7 +46,6 @@ def main(twitterHandle = "TheEllenShow"):
     #print(redUser)
     for friend in query:
         #print(friend.id)
-
         if(str(friend.id) in redUsers):
             redscore +=1
         if(str(friend.id) in blueUsers):
