@@ -55,11 +55,11 @@ def main():
     #query = api.GetFriends(screen_name = twitterHandle )
     #print("length " + str(len(query)))
 
-    redUsers = readUserInfoAndFriends("Friend_List_RedVTU.txt")
-    blueUsers = readUserInfoAndFriends("Friend_List_BlueVTU.txt")
+    redUsers = readUserInfoAndFriends("Friend_List_Red.txt")
+    blueUsers = readUserInfoAndFriends("Friend_List_Blue.txt")
 
-    redOutfile = open("RedVTUScores.tsv", "w")
-    blueOutfile = open("BlueVTUScores.tsv", "w")
+    redOutfile = open("RedGovScores.tsv", "w")
+    blueOutfile = open("BlueGovScores.tsv", "w")
     
     for user, friends in redUsers.items():
         redscore =0
