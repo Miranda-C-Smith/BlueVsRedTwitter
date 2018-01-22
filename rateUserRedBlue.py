@@ -27,30 +27,71 @@ def readUserInfocsv(filename):
         count =0 
         for row in reader:
             if count > 0:
-                userIDs.append(row[2])
+                userIDs.append(row[0])
             count +=1
     #print(userIDs)
     return userIDs
             
-        
+def readUserInfoAndFriends(filename):
+    users = {}
+    with open(filename, "r" ,encoding='utf-8') as f:
+        count = 0
+        for row in f.read().split("\n"):
+            if count ==0:
+                count+=1
+                continue
+            if row:
+                friends = row.split(" ")[1:]
+                username = row.split(" ")[0]
+                users[username]=friends
+    return users
+    
 
-def main(twitterHandle = "jaredpolis"):
+def main():
     
     #print( "found %d friends" % (len(query["ids"])))
-    redUsers = readUserInfocsv("RedUserInfo.csv")
-    blueUsers = readUserInfocsv("BlueUserInfo.csv")
-    query = api.GetFriends(screen_name = twitterHandle )
-    print("length " + str(len(query)))
-    redscore =0
-    bluescore =0
-    #print(redUser)
-    for friend in query:
-        #print(friend.id)
-        if(str(friend.id) in redUsers):
-            redscore +=1
-        if(str(friend.id) in blueUsers):
-            bluescore +=1
-    print("redscore {} \nbluescore {}".format(redscore, bluescore))
+    redGS = readUserInfocsv("RedUserInfo.csv")
+    blueGS = readUserInfocsv("BlueUserInfo.csv")
+    #query = api.GetFriends(screen_name = twitterHandle )
+    #print("length " + str(len(query)))
+
+    redUsers = readUserInfoAndFriends("Friend_List_RedVTU.txt")
+    blueUsers = readUserInfoAndFriends("Friend_List_BlueVTU.txt")
+
+    redOutfile = open("RedVTUScores.tsv", "w")
+    blueOutfile = open("BlueVTUScores.tsv", "w")
+    
+    for user, friends in redUsers.items():
+        redscore =0
+        bluescore =0
+        redOutfile.write(user)
+        for friend in friends:
+            if(str(friend) in redGS):
+                redscore +=1
+            if(str(friend) in blueGS):
+                bluescore +=1
+        redOutfile.write("\t" + str(redscore) + "\t" + str(bluescore) +"\n" )
+
+    for user, friends in blueUsers.items():
+        redscore =0
+        bluescore =0
+        blueOutfile.write(user)
+        for friend in friends:
+            if(str(friend) in redGS):
+                redscore +=1
+            if(str(friend) in blueGS):
+                bluescore +=1
+        blueOutfile.write("\t" + str(redscore) + "\t" + str(bluescore) +"\n" )
+
+    redOutfile.close()
+    blueOutfile.close()
+    #for friend in query:
+    #    #print(friend.id)
+    #    if(str(friend.id) in redUsers):
+    #        redscore +=1
+    #    if(str(friend.id) in blueUsers):
+    #        bluescore +=1
+    #print("redscore {} \nbluescore {}".format(redscore, bluescore))
     
 if __name__ == '__main__':
     main()
